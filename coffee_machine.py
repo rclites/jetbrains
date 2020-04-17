@@ -1,54 +1,127 @@
-water = 1200
-milk = 540
-beans = 120
-cups = 9
-cash = 550
+stock = [400, 540, 120, 9, 550] # water, milk, beans, cups and cash
 
-def print_status():
-    print('The coffee machine has:')
-    print('{} of water'.format(water))
-    print('{} of milk'.format(milk))
-    print('{} of coffee beans'.format(beans))
-    print('{} of disposable cups'.format(cups))
-    print('{} of money'.format(cash))
+def print_status(stock):
+    status = '''
+The coffee machine has:
+{} of water
+{} of milk
+{} of coffee beans
+{} of disposable cups
+${} of money'''.format(stock[0], stock[1], stock[2], stock[3], stock[4])
+    print(status)
+
 
 def take_action():
-    action = input("Write action (buy, fill, take):\n")
+    action = input("\nWrite action (buy, fill, take, remaining, exit):\n")
     if action == 'buy':
         buy()
     elif action == 'fill':
         fill()
-    else:
+    elif action == 'take':
         take()
+    elif action == 'remaining':
+        remaining()
+    else:
+        leave()
+
 
 def buy():
-    cust_order = input('What do you want to buy? 1 - espresso, 2 - latte, 3 - cappucino:\n')
-    if cust_order == '1':
-        # reduce 250 ml water, 16 g coffee beans
-        # add $4
-    elif cust_order == '2':
-        # reduce 350 ml water, 75 ml milk, 20 g coffee beans,
-        # add $7
+    global stock
+    cust_order = input('\nWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappucino, back - to main menu:\n')
+    while cust_order == '1':
+        if stock[0] >= 250:
+            stock[0] -= 250
+        else:
+            print('Sorry, not enough water!')
+            break
+        if stock[2] >= 16:
+            stock[2] -= 16
+        else:
+            print('Sorry, not enough coffee beans!')
+            break
+        if stock[3] >= 1:
+            stock[3] -= 1
+        else:
+            print('Sorry, not enough disposable cups!')
+            break
+        stock[4] += 4
+        print('I have enough resources, making you a coffee!')
+        break
+    while cust_order == '2':
+        if stock[0] >= 350:
+            stock[0] -= 350
+        else:
+            print('Sorry, not enough water!')
+            break
+        if stock[1] >= 75:
+            stock[1] -= 75
+        else:
+            print('Sorry, not enough milk!')
+            break
+        if stock[2] >= 20:
+            stock[2] -= 20
+        else:
+            print('Sorry, not enough coffee beans!')
+            break
+        if stock[3] >= 1:
+            stock[3] -= 1
+        else:
+            print('Sorry, not enough disposable cups!')
+            break
+        stock[4] += 7
+        print('I have enough resources, making you a coffee!')
+        break
+    while cust_order == '3':
+        if stock[0] >= 200:
+            stock[0] -= 200
+        else:
+            print('Sorry, not enough water!')
+            break
+        if stock[1] >= 100:
+            stock[1] -= 100
+        else:
+            print('Sorry, not enough milk!')
+            break
+        if stock[2] >= 12:
+            stock[2] -= 12
+        else:
+            print('Sorry, not enough coffee beans!')
+            break
+        if stock[3] >= 1:
+            stock[3] -= 1
+        else:
+            print('Sorry, not enough disposable cups!')
+            break
+        stock[4] += 6
+        print('I have enough resources, making you a coffee!')
+        break
     else:
-        # reduce 200 ml water, 100 ml milk, 12 g coffee beans,
-        # add $7
+        take_action()
+
 
 def fill():
-    water_fill = int(input('Write how many ml of water do you want to add:\n'))
-    # add water_fill to water
-    milk_fill = int(input('Write how many ml of milk do you want to add:\n'))
-    #add milk_fill to milk
-    beans_fill = int(input('Write how many grams of coffee beans do you want to add:\n'))
-    #add beans_fill to beans
-    cups_fill = int(input('Write how many disposable cups of coffee do you want to add:\n'))
-    #add cups_fill to cups
+    global stock
+    stock[0] += int(input('Write how many ml of water do you want to add:\n'))
+    stock[1] += int(input('Write how many ml of milk do you want to add:\n'))
+    stock[2] += int(input('Write how many grams of coffee beans do you want to add:\n'))
+    stock[3] += int(input('Write how many disposable cups of coffee do you want to add:\n'))
+
 
 def take():
-    print('I gave you ${}'.format(cash))
-    # reduce cash to 0
+    global stock
+    print(f'\nI gave you ${stock[4]}')
+    stock[4] = 0
 
-print_status()
 
-take_action()
+def remaining():
+    print_status(stock)
 
-print_status()
+
+def leave():
+    global x
+    x = 1
+
+
+x = 0
+while x == 0:
+    take_action()
